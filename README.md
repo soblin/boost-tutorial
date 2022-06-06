@@ -3,6 +3,6 @@
 Pick some tutorials from https://boostjp.github.io/tips.html
 
 - [X] Geometry
-- [ ] UUID
+- [X] UUID
 - [ ] Graph
 - [ ] Interval
