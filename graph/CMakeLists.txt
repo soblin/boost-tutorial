@@ -4,3 +4,4 @@ function(add_demo target)
 endfunction()
 
 add_demo(create)
+add_demo(property)
