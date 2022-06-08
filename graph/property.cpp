@@ -2,7 +2,7 @@
 #include <string>
 #include <array>
 #include <chrono>
-#include <unordered_map>
+#include <unordered_set>
 
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>
@@ -22,7 +22,9 @@ template <> struct hash<boost::uuids::uuid> {
 
 struct RoadmapNodeProp {
 public:
-  struct NodeData {
+  // This user data type should be passed from the client
+  // So RoadmapGraph<UserNodePropT, UserEdgePropT, UserGraphPropT> ?
+  struct Data {
     double value;
     std::array<double, 3> position;
     std::array<double, 4> orientation;
@@ -31,18 +33,19 @@ public:
   boost::uuids::uuid ID;
   std::vector<boost::uuids::uuid> edges; // connected edges
   std::chrono::system_clock::time_point stamp;
-  NodeData data;
+  Data data;
 };
 
 struct RoadmapEdgeProp {
 public:
-  struct EdgeData {
+  struct Data {
     double weight;
     double length;
   };
 
-  EdgeData data;
+  boost::uuids::uuid ID;
   std::chrono::system_clock::time_point stamp;
+  Data data;
 };
 
 class RoadmapGraph
@@ -56,11 +59,16 @@ public:
   };
 
   RoadmapGraph() { stamp = std::chrono::system_clock::now(); }
+  boost::uuids::uuid add_node();
+  boost::uuids::uuid add_edge();
 
 private:
   std::chrono::system_clock::time_point stamp;
   std::unordered_set<boost::uuids::uuid> nodes;
   std::unordered_set<boost::uuids::uuid> edges;
+  // cache the mapping
+  std::unordered_map<boost::uuids::uuid, vertex_descriptor> uid2nodedesc;
+  std::unordered_map<boost::uuids::uuid, edge_descriptor> uid2edgedesc;
   RoadmapGraphData data;
 };
 
