@@ -7,3 +7,8 @@ function(add_demo target)
     COMMAND multi_index_${target}
   )
 endfunction()
+
+add_demo(set_with_insertion_order)
+add_demo(tagged_index)
+add_demo(multi_key_map)
+add_demo(bidirectional_map)
