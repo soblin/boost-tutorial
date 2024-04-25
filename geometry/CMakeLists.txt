@@ -1,6 +1,11 @@
 function(add_demo target)
-  add_executable(${target} ${target}.cpp)
-  target_include_directories(${target} PUBLIC ${Boost_INCLUDE_DIRS})
+  add_executable(geometry_${target} ${target}.cpp)
+  target_include_directories(geometry_${target} PUBLIC ${Boost_INCLUDE_DIRS})
+  set_target_properties(geometry_${target} PROPERTIES OUTPUT_NAME ${target})
+  add_custom_target(
+    run_geometry_${target}
+    COMMAND geometry_${target}
+  )
 endfunction()
 
 add_demo(disjoint)
